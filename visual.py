@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def plot_hyperbolic(ball):
+def plot_hyperbolic(ball, show_camera_view=False):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
@@ -15,9 +15,10 @@ def plot_hyperbolic(ball):
     x, y, z = camera.get_point().gen_points()
     ax.scatter(x, y, z, color='r', s=100)
 
-    for obj in camera.get_view():
-        x, y, z = obj.gen_points()
-        ax.plot(x, y, z, color='y', alpha=0.4)
+    if show_camera_view:
+        for obj in camera.get_view():
+            x, y, z = obj.gen_points()
+            ax.plot(x, y, z, color='y', alpha=0.4)
 
     ax.set_box_aspect([1,1,1])
     ax.set_xlim3d([0, 10])

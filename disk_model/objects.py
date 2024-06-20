@@ -3,8 +3,14 @@ from operator import rshift
 from re import A
 import numpy as np
 
+def get_dist_vec_3d(a, b):
+    return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+
 def get_dist(x1, y1, x2, y2):
     return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+def get_hyperbolic_dist(p, q):
+    pass
 
 def points_between(a, b, num_points):
     # Ensure a and b are numpy arrays
@@ -22,12 +28,19 @@ class PoincarePoint:
         self.x = x
         self.y = y
         self.z = z
+        self.color = color
+
+    def get_color(self):
+        return self.color
 
     def euclid_convert(self):
         return np.array([self.x, self.y, self.z])
 
     def gen_points(self):
         return [self.x], [self.y], [self.z]
+
+    def is_intersect(self, poincare_line):
+        return False, None
 
 class PoincareLine:
     NUM = 10 ** 3 
@@ -50,6 +63,9 @@ class PoincareLine:
         print(f"< {self.x2}, {self.y2} >")
         print("==  END ==")
 
+    def get_color(self):
+        return self.color
+
     def gen_points(self):
         center, radius = self.get_center()
 
@@ -67,13 +83,19 @@ class PoincareLine:
 
         return x, y, z 
 
+    def is_intersect(self, poincare_line):
+        return False, None
+
 class PoincareSphere:
     NUM = 10 ** 3 
 
-    def __init__(self, center, r, color=(0, 0, 0)):
+    def __init__(self, center, r, color=(250, 182, 25)):
         self.center = center
         self.radius = r 
         self.color = color
+
+    def get_color(self):
+        return self.color
 
     def gen_points(self):
         phi = np.random.uniform(0, 2 * np.pi, self.NUM)
@@ -85,6 +107,22 @@ class PoincareSphere:
         z = self.center[2] + self.radius * np.cos(theta)
 
         return x, y, z
+
+    def is_intersect(self, poincare_line):
+        x, y, z = poincare_line.gen_points()
+        for i in range(len(x)):
+            p = np.array([x[i], y[i], z[i]])
+            if get_dist_vec_3d(p, self.center) <= self.radius:
+                return True, p
+        return False, None
+
+
+
+
+
+
+
+
 
 
 

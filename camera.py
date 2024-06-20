@@ -3,8 +3,8 @@ from tools import get_line_through_point
 import numpy as np
 
 class PoincareCamera:
-    VIEW_X, VIEW_Y = 2, 2
-    EPS = 1 / 2
+    VIEW_X, VIEW_Y = 1.4, 1.4
+    EPS = 1 / 30 
 
     def __init__(self, p, dir=np.array([1, 1, 1])):
         self.p = p

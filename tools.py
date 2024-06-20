@@ -1,8 +1,6 @@
-from disk_model.objects import PoincareLine, PoincarePoint
+from disk_model.objects import PoincareLine, PoincarePoint, get_dist_vec_3d
 import numpy as np
-
-def get_dist_vec_3d(a, b):
-    return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+import matplotlib.pyplot as plt
 
 def get_line_through_point(p, dir):
     center_vec = np.array([dir[0], dir[1], -(dir[0] ** 2 + dir[1] ** 2) / dir[2]])
@@ -21,6 +19,24 @@ def get_line_through_point(p, dir):
     B = center - radius * diff
     
     return PoincareLine(A[0], A[1], B[0], B[1])
+
+def get_world_view(ball, camera):
+    views = camera.get_view()
+    camera_view = {}
+    datax, datay, colors = [], [], []
+    for view in views:
+        color = np.array(ball.get_color(view)) / 255
+
+        camera_view[(view.x1, view.y1)] = color
+        datax.append(view.x2)
+        datay.append(view.y2)
+        colors.append(color)
+
+    plt.scatter(datax, datay, c=colors, s=100)
+    plt.show()
+
+    return camera_view
+
 
 
 
