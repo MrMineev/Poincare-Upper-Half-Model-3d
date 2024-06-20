@@ -1,4 +1,5 @@
 import math
+from operator import rshift
 from re import A
 import numpy as np
 
@@ -17,24 +18,37 @@ def points_between(a, b, num_points):
     return intermediate_points
 
 class PoincarePoint:
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z, color=(0, 0, 0)):
         self.x = x
         self.y = y
         self.z = z
 
+    def euclid_convert(self):
+        return np.array([self.x, self.y, self.z])
+
+    def gen_points(self):
+        return [self.x], [self.y], [self.z]
+
 class PoincareLine:
     NUM = 10 ** 3 
 
-    def __init__(self, x1, y1, x2, y2):
+    def __init__(self, x1, y1, x2, y2, color=(0, 0, 0)):
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
+        self.color = color
 
     def get_center(self):
         center = [(self.x1 + self.x2) / 2, (self.y1 + self.y2) / 2]
         radius = math.sqrt((self.x1 - self.x2) ** 2 + (self.y1 - self.y2) ** 2) / 2
         return (center, radius)
+
+    def info(self):
+        print("== INFO ==")
+        print(f"< {self.x1}, {self.y1} >")
+        print(f"< {self.x2}, {self.y2} >")
+        print("==  END ==")
 
     def gen_points(self):
         center, radius = self.get_center()
@@ -45,7 +59,7 @@ class PoincareLine:
 
         for point in points:
             d = get_dist(center[0], center[1], point[0], point[1])
-            z_value = math.sqrt(radius ** 2 - d ** 2)
+            z_value = math.sqrt(max(radius ** 2 - d ** 2, 0))
 
             x.append(point[0])
             y.append(point[1])
@@ -56,9 +70,10 @@ class PoincareLine:
 class PoincareSphere:
     NUM = 10 ** 3 
 
-    def __init__(self, center, r):
+    def __init__(self, center, r, color=(0, 0, 0)):
         self.center = center
-        self.radius = r
+        self.radius = r 
+        self.color = color
 
     def gen_points(self):
         phi = np.random.uniform(0, 2 * np.pi, self.NUM)

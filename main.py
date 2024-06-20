@@ -1,12 +1,20 @@
-from disk_model.poincare import DiskModel
-from disk_model.objects import PoincareLine, PoincareSphere
+from disk_model.poincare import BallModel 
+from disk_model.objects import PoincareLine, PoincareSphere, PoincarePoint
+from camera import PoincareCamera
 from visual import plot_hyperbolic
+from tools import get_line_through_point
 import math
 import numpy as np
 
-poincare_line = PoincareSphere(np.array([4, 4, 4]), 2)
+ball = BallModel()
 
-plot_hyperbolic(poincare_line)
+ball.add_object(PoincareSphere([3, 3, 5], 2))
+
+camera = PoincareCamera(PoincarePoint(4, 3, 2))
+
+ball.set_camera(camera)
+
+plot_hyperbolic(ball)
 
 
 
