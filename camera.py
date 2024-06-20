@@ -4,12 +4,13 @@ import numpy as np
 
 class PoincareCamera:
     VIEW_X, VIEW_Y = 1.4, 1.4
-    EPS = 1 / 30 
+    EPS = 1 / 5
 
-    def __init__(self, p, dir=np.array([1, 1, 1])):
+    def __init__(self, p, dir=np.array([1, 1, 1]), EPS=1/5):
         self.p = p
         self.dir = dir
         self.camera_view = []
+        self.EPS = EPS
 
     def make_view_lines(self):
         self.camera_view = []

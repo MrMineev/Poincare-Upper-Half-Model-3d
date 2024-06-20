@@ -32,7 +32,7 @@ def get_world_view(ball, camera):
         datay.append(view.y2)
         colors.append(color)
 
-    plt.scatter(datax, datay, c=colors, s=100)
+    plt.scatter(datax, datay, c=colors, s=20)
     plt.show()
 
     return camera_view
